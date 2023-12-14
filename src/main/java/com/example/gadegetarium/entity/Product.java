@@ -22,7 +22,7 @@ public class Product extends Id {
     @ManyToOne
     private Brand brand;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Basket basket;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "product",cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})

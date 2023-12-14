@@ -27,8 +27,8 @@ public class UserApi {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/FindByEmail")
-    public UserResponseInfo findUserByEmail(UserRequest request){
-        return userService.getUserById(request);
+    public UserResponseInfo findUserByEmail(String email){
+        return userService.getUserById(email);
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")

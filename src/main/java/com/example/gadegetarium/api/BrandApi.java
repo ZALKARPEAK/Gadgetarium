@@ -2,6 +2,7 @@ package com.example.gadegetarium.api;
 
 import com.example.gadegetarium.dto.Brand.BrandRequest;
 import com.example.gadegetarium.dto.Product.ProductResponse;
+import com.example.gadegetarium.dto.Product.ProductResponseUser;
 import com.example.gadegetarium.dto.SimpleResponse;
 import com.example.gadegetarium.service.BrandService;
 import jakarta.validation.Valid;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/brand")
 @RequiredArgsConstructor
 public class BrandApi {
     private final BrandService brandService;
@@ -30,7 +31,7 @@ public class BrandApi {
 
     @PostMapping("/getProductFromBrand")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    public List<ProductResponse> getProductFromBrand(@RequestParam String brandName){
+    public List<ProductResponseUser> getProductFromBrand(@RequestParam String brandName){
         return brandService.getProductsByBrand(brandName);
     }
 }

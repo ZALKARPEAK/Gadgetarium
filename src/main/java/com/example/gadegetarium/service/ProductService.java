@@ -10,11 +10,10 @@ import java.util.List;
 public interface ProductService {
     ProductResponse getProductById(Long productId);
     ProductResponse createProduct(ProductRequest productRequest);
-    ProductResponse updateProduct(Long productId, ProductRequest productRequest);
     void deleteProduct(Long productId);
     PaginationResponse getAllProducts(int page, int size);
     List<ProductResponse> getProductsByCategory(Category category);
     List<ProductResponse> getFavoriteProducts(String userEmail);
-    List<ProductResponse> getProductsInBasket(String userEmail);
+    List<ProductResponse> getProductByCategoryAndPrice(String ascOrDesc, Category category);
 
 }
