@@ -9,9 +9,9 @@ import java.util.List;
 @Data
 @Entity
 public class Basket extends Id {
-    @OneToMany(cascade = CascadeType.DETACH)
+    @ManyToMany(cascade = CascadeType.REMOVE)
     private List<Product> product;
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToOne
     private User user;
 
 

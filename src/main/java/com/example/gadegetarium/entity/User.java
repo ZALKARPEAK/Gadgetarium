@@ -46,24 +46,38 @@ public class User extends Id implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
+
     @Override
     public String getUsername() {
         return email;
     }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
+
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
+
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
+
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void addComment(Comment comment1) {
+        if (comment1 != null) {
+            comments.add(comment1);
+            comment1.setUser(this);
+        } else {
+            throw new RuntimeException("Comment is null!!!");
+        }
     }
 }

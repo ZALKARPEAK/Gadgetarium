@@ -1,7 +1,6 @@
 package com.example.gadegetarium.api;
 
 import com.example.gadegetarium.dto.Brand.BrandRequest;
-import com.example.gadegetarium.dto.Product.ProductResponse;
 import com.example.gadegetarium.dto.Product.ProductResponseUser;
 import com.example.gadegetarium.dto.SimpleResponse;
 import com.example.gadegetarium.service.BrandService;

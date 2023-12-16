@@ -1,6 +1,5 @@
 package com.example.gadegetarium.repo;
 
-import com.example.gadegetarium.dto.User.PaginationResponse;
 import com.example.gadegetarium.dto.User.UserResponseInfo;
 import com.example.gadegetarium.entity.User;
 import org.springframework.data.domain.Page;

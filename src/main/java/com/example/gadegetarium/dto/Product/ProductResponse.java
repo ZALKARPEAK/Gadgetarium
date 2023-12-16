@@ -14,7 +14,6 @@ public class ProductResponse {
     private Long id;
     private String name;
     private int price;
-    private String images;
     private String characteristic;
     private boolean isFavorite;
     private String madeIn;
@@ -27,7 +26,6 @@ public class ProductResponse {
     public ProductResponse(String name, int price, String characteristic, boolean isFavorite, String madeIn, Category category) {
         this.name = name;
         this.price = price;
-        this.images = images;
         this.characteristic = characteristic;
         this.isFavorite = isFavorite;
         this.madeIn = madeIn;

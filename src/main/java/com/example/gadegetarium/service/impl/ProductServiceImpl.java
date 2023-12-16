@@ -27,7 +27,6 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepo productRepo;
     private final BrandRepo brandRepo;
-    private final BasketRepo basketRepo;
 
     @Override
     public ProductResponse getProductById(Long productId) {
@@ -42,24 +41,17 @@ public class ProductServiceImpl implements ProductService {
                 .id(productId)
                 .name(product.getName())
                 .price(product.getPrice())
-//                .images(product.getImages())
                 .characteristic(product.getCharacteristic())
                 .isFavorite(product.isFavorite())
                 .madeIn(product.getMadeIn())
                 .category(product.getCategory())
                 .brandId(product.getBrand().getId())
-                .basketId(product.getBasket().getId())
                 .commentIds(commentIds)
                 .build();
     }
 
     @Override
     public ProductResponse createProduct(ProductRequest productRequest) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        Basket basket = basketRepo.findByUserId(user.getId())
-                .orElseThrow(() -> new NotFoundException("Basket not found for the user"));
-
         Product newProduct = new Product();
         newProduct.setName(productRequest.getName());
         newProduct.setPrice(productRequest.getPrice());
@@ -70,21 +62,22 @@ public class ProductServiceImpl implements ProductService {
         Brand brand = brandRepo.findBrandByBrandName(productRequest.getBrandName())
                 .orElseThrow(() -> new NotFoundException("Brand not found"));
 
+        if (newProduct.getBasket() == null) {
+            newProduct.setBasket(new ArrayList<>());
+        }
+
         newProduct.setBrand(brand);
-        newProduct.setBasket(basket);
 
         Product savedProduct = productRepo.save(newProduct);
 
         return ProductResponse.builder()
                 .name(savedProduct.getName())
                 .price(savedProduct.getPrice())
-//                .images(savedProduct.getImages())
                 .characteristic(savedProduct.getCharacteristic())
                 .isFavorite(savedProduct.isFavorite())
                 .madeIn(savedProduct.getMadeIn())
                 .category(savedProduct.getCategory())
                 .brandId(savedProduct.getBrand().getId())
-                .basketId(savedProduct.getBasket().getId())
                 .build();
     }
 
@@ -119,7 +112,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductResponse> getProductsByCategory(Category category) {
         List<Product> products = productRepo.findByCategory(category);
-
         return convertToProductResponseList(products);
     }
 
@@ -140,10 +132,8 @@ public class ProductServiceImpl implements ProductService {
             return null;
         }
 
-        convertToProductResponse(allProducts);
-        return allProducts;
+       return convertToProductResponse(allProducts);
     }
-
 
     private List<ProductResponse> convertToProductResponseList(List<Product> products) {
         List<ProductResponse> productResponses = new ArrayList<>();
@@ -152,13 +142,13 @@ public class ProductServiceImpl implements ProductService {
                     .id(product.getId())
                     .name(product.getName())
                     .price(product.getPrice())
-//                    .images(product.getImages())
                     .characteristic(product.getCharacteristic())
                     .isFavorite(product.isFavorite())
                     .madeIn(product.getMadeIn())
                     .category(product.getCategory())
                     .brandId(product.getBrand() != null ? product.getBrand().getId() : null)
-                    .basketId(product.getBasket() != null ? product.getBasket().getId() : null)
+                    .basketId(product.getBasket() != null ? product.getBasket().stream().findFirst()
+                            .orElse(null).getId(): null)
                     .commentIds(getCommentIds(product.getComments()))
                     .favoriteIds(getFavoriteIds(product.getFavorite()))
                     .build());
@@ -173,7 +163,6 @@ public class ProductServiceImpl implements ProductService {
                     .id(product.getId())
                     .name(product.getName())
                     .price(product.getPrice())
-                    .images(product.getImages())
                     .characteristic(product.getCharacteristic())
                     .isFavorite(product.isFavorite())
                     .madeIn(product.getMadeIn())

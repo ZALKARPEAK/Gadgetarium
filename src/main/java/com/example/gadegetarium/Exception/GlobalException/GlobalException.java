@@ -1,9 +1,6 @@
 package com.example.gadegetarium.Exception.GlobalException;
 
-import com.example.gadegetarium.Exception.AlreadyExistsException;
-import com.example.gadegetarium.Exception.BadCredentialsException;
-import com.example.gadegetarium.Exception.ExceptionResponse;
-import com.example.gadegetarium.Exception.NotFoundException;
+import com.example.gadegetarium.Exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -52,5 +49,11 @@ public class GlobalException {
                 e.getClass().getSimpleName(),
                 e.getMessage()
         );
+    }
+
+    @ExceptionHandler(AccessDenied.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionResponse accessDenied(AccessDenied i){
+        return new ExceptionResponse(HttpStatus.BAD_REQUEST, i.getClass().getName(), i.getMessage());
     }
 }

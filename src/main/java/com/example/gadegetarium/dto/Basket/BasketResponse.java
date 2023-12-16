@@ -1,14 +1,12 @@
 package com.example.gadegetarium.dto.Basket;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
+@Builder
 public class BasketResponse {
     private String message;
 }

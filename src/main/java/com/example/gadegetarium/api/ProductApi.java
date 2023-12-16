@@ -17,10 +17,23 @@ public class ProductApi {
 
     private final ProductService productService;
 
+
+    @GetMapping("/ById")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    public ProductResponse getProductById(@RequestParam Long productId) {
+        return productService.getProductById(productId);
+    }
+
     @GetMapping("/All")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public PaginationResponse getAllProduct(@RequestParam int page, @RequestParam int size) {
         return productService.getAllProducts(page, size);
+    }
+
+    @DeleteMapping("/Delete")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void deleteProduct(@RequestParam Long productId) {
+        productService.deleteProduct(productId);
     }
 
     @PostMapping("/Add")
